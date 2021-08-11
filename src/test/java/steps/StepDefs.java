@@ -4,6 +4,7 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -13,7 +14,7 @@ import utils.ElementValues;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
-public class LoginSteps extends ElementValues {
+public class StepDefs extends ElementValues {
 
     public static WebDriver driver;
     ConfigProperties cp;
@@ -63,24 +64,30 @@ public class LoginSteps extends ElementValues {
         driver.findElement(register_day_dropdown).click();
         driver.findElement(register_day_item).click();
         driver.findElement(register_month_dropdown).click();
-        driver.findElement(register_day_item).click();
+        driver.findElement(register_month_item).click();
         driver.findElement(register_year_dropdown).click();
-        driver.findElement(register_day_item).click();
+        driver.findElement(register_year_item).click();
     }
 
     @And("^complete address information at registration$")
     public void complete_address_information_at_registration() throws Throwable {
-        driver.findElement(address_firstname_textbox).sendKeys("^$");
-        driver.findElement(address_lastname_textbox).sendKeys("^$");
+    /*
+        String fn;
+        fn = driver.findElement(address_firstname_textbox).getText();
+        Assert.assertEquals(fn,"cp.firstname");
+    */
         driver.findElement(address_company_textbox).sendKeys("^$");
         driver.findElement(address_address1_textbox).sendKeys("^$");
         driver.findElement(address_address2_textbox).sendKeys("^$");
         driver.findElement(address_city_textbox).sendKeys("^$");
         driver.findElement(address_additional_textarea).sendKeys("1233211232");
+
         driver.findElement(address_country_dropdown).click();
         driver.findElement(address_country_item).click();
+
         driver.findElement(address_phone1_textbox).sendKeys("1231231212");
         driver.findElement(address_phone2_textbox).sendKeys("3213213232");
+
         driver.findElement(address_reference_textbox).sendKeys("^$");
     }
 
