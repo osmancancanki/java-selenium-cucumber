@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class ConfigProperties {
 
-    public String WD = "chromedriver";
+    public String WD = "chrome";
 
     public String firstname = "test";
     public String lastname = "user";
