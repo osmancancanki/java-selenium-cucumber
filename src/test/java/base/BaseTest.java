@@ -1,53 +1,41 @@
 package base;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import utils.ConfigReader;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.util.Properties;
+import java.util.concurrent.TimeUnit;
 
 public class BaseTest {
 
-    public static WebDriver driver;
-    public static WebDriverWait webDriverWait;
-
-    Properties prop = new Properties();
-
-    FileInputStream ip = new FileInputStream(
-            "src/test/java/utils/ConfigProperties.java");
-
-    public BaseTest() throws FileNotFoundException {
-    }
-
-    String wb = prop.getProperty("WD");
+   public WebDriver driver;
+   ConfigReader configReader = new ConfigReader();
 
     public void initializeDriver() {
 
-        if (wb.equals("chrome")) {
-            System.setProperty("webdriver.chrome.driver","drivers/chromedriver.exe");
+        if (configReader.getProperty("web_driver").equals("chrome")) {
+            WebDriverManager.chromedriver().setup();
 
             ChromeOptions options = new ChromeOptions();
 
             driver = new ChromeDriver(options);
             options.addArguments("incognito");
             driver.manage().window().maximize();
-
-            //driver.manage().timeouts().pageLoadTimeout(TestUtil.PAGE_LOAD_TIMEOUT, TimeUnit.SECONDS);
-            //driver.manage().timeouts().implicitlyWait(TestUtil.IMPLICIT_WAIT, TimeUnit.SECONDS);
+            driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         }
-        else if(wb.equals("FF")){
-            System.setProperty("webdriver.chrome.driver","drivers/chromedriver.exe");
+        else if(configReader.getProperty("web_driver").equals("firefox")){
+            WebDriverManager.firefoxdriver().setup();
             driver = new FirefoxDriver();
         }
-        else if(wb.equals("IE")){
-            System.setProperty("webdriver.chrome.driver","drivers/chromedriver.exe");
+        else if(configReader.getProperty("web_driver").equals("ie")){
+            WebDriverManager.iedriver().setup();
             driver = new InternetExplorerDriver();
         }
+        driver.get(configReader.getProperty("base_url"));
     }
 
     public void killDriver() {
